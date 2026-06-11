@@ -533,6 +533,41 @@
       color: var(--on-surface);
       margin-bottom: 4px;
     }
+    .code-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(110, 122, 119, .12);
+    }
+    .code-card h3 {
+      margin: 10px 0 8px;
+      font-size: 18px;
+      line-height: 24px;
+    }
+    .code-card p {
+      margin: 0 0 14px;
+      color: var(--on-surface-variant);
+      line-height: 21px;
+    }
+    .code-block {
+      margin: 0;
+      padding: 16px;
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      background: #101719;
+      color: #ecf2f5;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      line-height: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .code-caption {
+      margin-top: 10px;
+      color: var(--outline);
+      font-size: 12px;
+      line-height: 17px;
+    }
 
     .timeline {
       display: grid;
@@ -1243,6 +1278,20 @@
               <strong>Decision rule after pilot</strong>
               Keep buying only if the vendor’s scale pricing is lower than the known build-and-run cost and the vendor contributes more than rendering.
             </div>
+          </div>
+        </div>
+
+        <div style="height:24px"></div>
+        <div class="code-card" aria-label="StorifyMe embed example">
+          <span class="pill good">StorifyMe embed example</span>
+          <h3>What “fast setup” could look like technically</h3>
+          <p>
+            This script include can be added to the host page as the starting point for a StorifyMe proof sprint.
+            Expatrio should still wrap it inside <strong>&lt;StoryRail /&gt;</strong>, gate visibility internally, and mirror events into its own analytics.
+          </p>
+          <pre class="code-block"><code>&lt;script type="text/javascript" async defer src="https://cdn.storifyme.xyz/static/web-components/storifyme-elements.min.js"&gt;&lt;/script&gt;</code></pre>
+          <div class="code-caption">
+            Treat this as an implementation example, not proof of final fit. The proof sprint still needs to verify iframe/native DOM behavior, event callbacks, PII transmission, performance impact, and Amplitude joinability.
           </div>
         </div>
       </section>
