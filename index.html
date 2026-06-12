@@ -112,7 +112,6 @@ table{width:100%;border-collapse:collapse;min-width:820px;background:white}th,td
 <a class="" href="pilot-plan.html">Pilot plan</a>
 <a class="" href="demo-storifyme-dashboard.html">StorifyMe demo</a>
 <a class="" href="demo-storysdk-dashboard.html">StorySDK demo</a></nav>
-    <div class="side-note">Decision support page · not a final procurement approval</div>
   </aside>
   <main class="main">
     
@@ -120,10 +119,9 @@ table{width:100%;border-collapse:collapse;min-width:820px;background:white}th,td
   <div class="topline">
     <span class="badge">Primary recommendation: StorifyMe</span>
     <span class="badge secondary">Backup: Storyly</span>
-    <span class="badge warn">Decision: proof sprint, not long-term contract</span>
   </div>
   <h1>Choose the fastest way to learn, not the biggest platform.</h1>
-  <p class="lede">For the first dashboard story pilot, Expatrio should test with <strong>StorifyMe</strong>, keep <strong>Storyly</strong> as the serious backup, and run a small open-source spike to understand the future build option.</p>
+  <p class="lede">For the first dashboard story pilot, Expatrio can test with <strong>StorifyMe</strong>, keep <strong>Storyly</strong> as the serious backup, and run a small open-source spike to understand the future build option.</p>
   <div class="cta-row">
     <a class="btn" href="demo-storifyme-dashboard.html" target="_blank">Open StorifyMe demo →</a>
     <a class="btn dark" href="demo-storysdk-dashboard.html" target="_blank">Open StorySDK demo →</a>
@@ -136,7 +134,7 @@ table{width:100%;border-collapse:collapse;min-width:820px;background:white}th,td
     </div>
     <div class="callout">
       <h2>The simple rule</h2>
-      <p>The vendor can power the experience. Expatrio must own the targeting, data, CTA routing, and learning.</p>
+      <p>The vendor can power the experience. We must own the targeting, data, and CTA routing.</p>
     </div>
   </div>
 </section>
@@ -152,32 +150,32 @@ table{width:100%;border-collapse:collapse;min-width:820px;background:white}th,td
   <div class="cards">
     <article class="card good">
       <div class="meta">Best first move</div>
-      <h3>Run a StorifyMe proof sprint</h3>
-      <p>It gives the team the best balance of fast setup, usable CMS, dashboard fit, and manageable pilot cost.</p>
+      <h3>Run a StorifyMe proof experiment</h3>
+      <p>It gives us the best balance of fast setup, a usable CMS, an acceptable dashboard fit, and manageable pilot cost (Starter plan is $99/mo.)</p>
     </article>
     <article class="card blue">
       <div class="meta">Keep warm</div>
       <h3>Use Storyly as the benchmark</h3>
-      <p>Storyly looks stronger for advanced targeting, analytics, and scale, but it is heavier for a first test.</p>
+      <p>Storyly looks more robust for advanced targeting, analytics, and scale, but it is more costly for an initial test.</p>
     </article>
     <article class="card warn">
       <div class="meta">Do not ignore</div>
       <h3>Run a small build-path spike</h3>
-      <p>StorySDK and react-instastories help us understand what building internally would really cost.</p>
+      <p>StorySDK and react-instastories can help us understand how large is the effort to build internally and what it would really cost.</p>
     </article>
   </div>
 </section>
 
 <section class="section">
   <h2>Vendor ranking</h2>
-  <p class="intro">Scores are directional. They are good enough to pick a proof-sprint path, but not enough for final procurement approval.</p>
+  <p class="intro">Initial scores are sufficient for shortlisting a proof-of-concept, but they are insufficient for a long term lock-in and final procurement approval.</p>
   <div class="table-wrap" style="margin-top:18px">
     <table>
       <thead><tr><th>Rank</th><th>Vendor</th><th>Score</th><th>Best for</th><th>Main strength</th><th>Main risk</th><th>Recommendation</th></tr></thead>
       <tbody>
         <tr><td class="rank">1</td><td><span class="vendor-pill primary">StorifyMe</span></td><td class="score">68.8</td><td>First pilot</td><td>Fast setup, CMS, web/app support</td><td>Advanced analytics/segmentation may need higher plan</td><td class="rec">Use for proof sprint</td></tr>
         <tr><td class="rank">2</td><td><span class="vendor-pill backup">Storyly</span></td><td class="score">66.8</td><td>Advanced capability</td><td>Targeting, analytics, enterprise maturity</td><td>Higher cost and lock-in</td><td>Backup + benchmark</td></tr>
-        <tr><td class="rank">3</td><td><span class="vendor-pill">StorySDK</span></td><td class="score">61.2</td><td>Fallback / build bridge</td><td>Open SDK + hosted editor + free tier</td><td>Small vendor; unconfirmed targeting/GDPR/A-B</td><td>Use in spike</td></tr>
+        <tr><td class="rank">3</td><td><span class="vendor-pill">StorySDK</span></td><td class="score">61.2</td><td>Fallback / build bridge</td><td>Open SDK + hosted editor + free tier</td><td>Small vendor; unconfirmed targeting/GDPR</td><td>Use as exploration for in-house solution</td></tr>
         <tr><td class="rank">4</td><td><span class="vendor-pill">InAppStory</span></td><td class="score">52.8</td><td>Mobile engagement</td><td>Strong feature set on paper</td><td>Quote-only pricing; web fit unclear</td><td>Deprioritize</td></tr>
         <tr><td class="rank">5</td><td><span class="vendor-pill no">react-instastories</span></td><td class="score">42.8</td><td>Internal build UI</td><td>Lightweight React renderer</td><td>No CMS, analytics, hosting, or targeting</td><td>Build option only</td></tr>
         <tr><td class="rank">6</td><td><span class="vendor-pill no">zuck.js</span></td><td class="score">40.0</td><td>Vanilla JS renderer</td><td>Free story player</td><td>Render-only and weaker maintenance signal</td><td>Exclude from pilot</td></tr>
@@ -198,30 +196,28 @@ table{width:100%;border-collapse:collapse;min-width:820px;background:white}th,td
       <p>The first job is to test the idea quickly, with low effort and a clean exit. That makes StorifyMe the better first move.</p>
     </div>
   </div>
-  <div class="notice"><strong>Important:</strong> The proof sprint must check whether StorifyMe can provide the data and control we need. If it cannot, move to Storyly.</div>
+  <div class="notice"><strong>Important:</strong> The proof sprint must check whether StorifyMe can provide the scale, data, and control we need. If it cannot, move to Storyly.</div>
 </section>
 
 <section class="section">
   <h2>What we need to prove</h2>
   <div class="kpi" style="margin-top:18px">
     <div class="item"><div class="number">1</div><div class="label">Can we control who sees the stories?</div></div>
-    <div class="item"><div class="number">2</div><div class="label">Can events land in Expatrio analytics?</div></div>
+    <div class="item"><div class="number">2</div><div class="label">Can events land in Amplitude?</div></div>
     <div class="item"><div class="number">3</div><div class="label">Can CTAs connect to insurance behavior?</div></div>
-    <div class="item"><div class="number">4</div><div class="label">Can marketing update content without engineering?</div></div>
+    <div class="item"><div class="number">4</div><div class="label">Can marketing/growth/product update content easily?</div></div>
   </div>
 </section>
 
 <section class="section">
   <h2>Useful links for decision makers</h2>
   <div class="cards" style="margin-top:18px">
-    <article class="card"><h3>Evaluation criteria</h3><p>Simple explanation of how vendors were judged and what must be verified.</p><div class="cta-row"><a class="btn secondary" href="evaluation-criteria.html">Open criteria</a></div></article>
-    <article class="card"><h3>Vendor details</h3><p>Plain-language notes on each vendor, including strengths, risks, and use case.</p><div class="cta-row"><a class="btn secondary" href="vendor-details.html">Open details</a></div></article>
-    <article class="card"><h3>Pilot plan</h3><p>Proof-sprint gates, measurement plan, and questions to ask vendors.</p><div class="cta-row"><a class="btn secondary" href="pilot-plan.html">Open pilot plan</a></div></article>
+    <article class="card"><h3>Evaluation criteria</h3><p>Simple explanation of how vendors were judged and what must be verified.</p><div class="cta-row"><a class="btn secondary" href="evaluation-criteria.html">See criteria</a></div></article>
+    <article class="card"><h3>Vendor details</h3><p>Plain notes on each vendor, including strengths, risks, and use case.</p><div class="cta-row"><a class="btn secondary" href="vendor-details.html">Open details</a></div></article>
+    <article class="card"><h3>Pilot plan</h3><p>Proof-experiment gates, measurement plan, and questions to ask vendors.</p><div class="cta-row"><a class="btn secondary" href="pilot-plan.html">Open pilot plan</a></div></article>
   </div>
 </section>
-
-<div class="footer"><strong>Suggested next step:</strong> approve a short StorifyMe proof sprint with clear pass/fail gates, while keeping Storyly and the build path warm.</div>
-
+    
   </main>
 </div>
 </body>
