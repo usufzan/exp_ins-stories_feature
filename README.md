@@ -47,40 +47,6 @@ The current recommendation is to run a short proof sprint with **StorifyMe** as 
 * `demo-storifyme-dashboard.html` — StorifyMe dashboard demo
 * `demo-storysdk-dashboard.html` — StorySDK dashboard demo
 
-## Local Preview
-
-You can open `index.html` directly in a browser.
-
-For a cleaner local preview, run a simple local server:
-
-```bash
-python3 -m http.server 8000
-```
-
-Then open:
-
-```text
-http://localhost:8000
-```
-
 ## GitHub Pages
 
 This site can be hosted with GitHub Pages.
-
-Recommended settings:
-
-```text
-Settings → Pages → Deploy from branch → main → /root
-```
-
-The public URL should look like:
-
-```text
-https://usufzan.github.io/exp_ins-stories_feature/
-```
-
-## Important Note
-
-This site is a pilot recommendation, not a final procurement decision.
-
-The recommended next step is to validate the vendor through a short proof sprint before making any long-term commitment.
