@@ -49,4 +49,4 @@ The current recommendation is to run a short proof sprint with **StorifyMe** as 
 
 ## GitHub Pages
 
-This site can be hosted with GitHub Pages.
+This site is hosted with [GitHub Pages](https://usufzan.github.io/exp_ins-stories_feature/).
