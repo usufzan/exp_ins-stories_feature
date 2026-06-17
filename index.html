@@ -111,6 +111,7 @@ table{width:100%;border-collapse:collapse;min-width:820px;background:white}th,td
 <a class="" href="vendor-details.html">Vendor details</a>
 <a class="" href="pilot-plan.html">Pilot plan</a>
 <a class="" href="demo-storifyme-dashboard.html">StorifyMe demo</a>
+<a class="" href="demo-storyly-dashboard.html">Storyly demo</a>
 <a class="" href="demo-storysdk-dashboard.html">StorySDK demo</a></nav>
   </aside>
   <main class="main">
@@ -123,8 +124,9 @@ table{width:100%;border-collapse:collapse;min-width:820px;background:white}th,td
   <h1>Choose the fastest way to learn, not the biggest platform.</h1>
   <p class="lede">For the first dashboard story pilot, Expatrio can test with <strong>StorifyMe</strong>, keep <strong>Storyly</strong> as the serious backup, and run a small open-source spike to understand the future build option.</p>
   <div class="cta-row">
-    <a class="btn" href="demo-storifyme-dashboard.html" target="_blank">Open StorifyMe demo →</a>
-    <a class="btn dark" href="demo-storysdk-dashboard.html" target="_blank">Open StorySDK demo →</a>
+    <a class="btn" href="demo-storifyme-dashboard.html" target="_blank" rel="noopener noreferrer">Open StorifyMe demo →</a>
+    <a class="btn dark" href="demo-storyly-dashboard.html" target="_blank" rel="noopener noreferrer">Open Storyly demo →</a>
+    <a class="btn secondary" href="demo-storysdk-dashboard.html" target="_blank" rel="noopener noreferrer">Open StorySDK demo →</a>
     <a class="btn secondary" href="vendor-details.html">Read detailed vendor notes</a>
   </div>
   <div class="hero-grid">
@@ -136,6 +138,38 @@ table{width:100%;border-collapse:collapse;min-width:820px;background:white}th,td
       <h2>The simple rule</h2>
       <p>The vendor can power the experience. We must own the targeting, data, and CTA routing.</p>
     </div>
+  </div>
+</section>
+
+<section class="section" id="demos">
+  <div class="section-head">
+    <div>
+      <h2>All demos</h2>
+      <p class="intro">Each demo is a live dashboard mockup with a vendor embed area. If a vendor CDN or account fails to load, the page keeps a visible fallback state instead of showing a blank slot.</p>
+    </div>
+  </div>
+  <div class="cards">
+    <article class="card good">
+      <div class="meta">Live vendor embed</div>
+      <h3>StorifyMe dashboard demo</h3>
+      <p>Validates the fastest pilot path: CMS-managed story content embedded inside the dashboard with low setup friction.</p>
+      <p class="mini" style="margin-top:12px"><strong>Dependency:</strong> StorifyMe web component CDN plus the configured account/widget IDs.</p>
+      <div class="cta-row"><a class="btn" href="demo-storifyme-dashboard.html" target="_blank" rel="noopener noreferrer">Open demo →</a></div>
+    </article>
+    <article class="card blue">
+      <div class="meta">Capability benchmark</div>
+      <h3>Storyly dashboard demo</h3>
+      <p>Shows the stronger enterprise-style placement path for targeting, analytics, and later scale evaluation.</p>
+      <p class="mini" style="margin-top:12px"><strong>Dependency:</strong> Storyly Placement Web SDK plus a public web placement token.</p>
+      <div class="cta-row"><a class="btn dark" href="demo-storyly-dashboard.html" target="_blank" rel="noopener noreferrer">Open demo →</a></div>
+    </article>
+    <article class="card warn">
+      <div class="meta">Build-path spike</div>
+      <h3>StorySDK dashboard demo</h3>
+      <p>Explores a lighter SDK/editor option and helps estimate the future internal-build path.</p>
+      <p class="mini" style="margin-top:12px"><strong>Dependency:</strong> React 17 CDN plus the StorySDK bundle and configured token.</p>
+      <div class="cta-row"><a class="btn secondary" href="demo-storysdk-dashboard.html" target="_blank" rel="noopener noreferrer">Open demo →</a></div>
+    </article>
   </div>
 </section>
 

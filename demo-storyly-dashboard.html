@@ -234,6 +234,11 @@
       color: #92400e;
     }
 
+    .storyly-placement-container.is-error .storyly-placement-placeholder {
+      border: 1px solid #fecaca;
+      background: #fff7f7;
+    }
+
     /* ---------- Section headers ---------- */
 
     .section-header {
@@ -435,6 +440,39 @@
       height: 22px;
     }
 
+    /* ---------- Demo shell ---------- */
+
+    .demo-switcher {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid #e2e8f0;
+      backdrop-filter: blur(10px);
+    }
+
+    .demo-switcher a {
+      border-radius: 999px;
+      padding: 7px 11px;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .demo-switcher a.active {
+      color: #ffffff;
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+
     /* ---------- Responsive ---------- */
 
     @media (max-width: 1300px) {
@@ -456,10 +494,29 @@
         padding-bottom: 8px;
       }
     }
+
+    @media (max-width: 700px) {
+      .demo-switcher {
+        justify-content: flex-start;
+        overflow-x: auto;
+      }
+
+      .storyly-placement-placeholder {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 
 <body>
+  <nav class="demo-switcher" aria-label="Demo navigation">
+    <a href="index.html">Back to summary</a>
+    <a href="demo-storifyme-dashboard.html">StorifyMe</a>
+    <a class="active" href="demo-storyly-dashboard.html">Storyly</a>
+    <a href="demo-storysdk-dashboard.html">StorySDK</a>
+  </nav>
+
   <div class="dashboard">
     <!-- ---------- Left Sidebar ---------- -->
     <aside class="sidebar">
@@ -543,12 +600,12 @@
           <div id="storylyPlacementContainer" class="storyly-placement-container">
             <storyly-placement id="storylyPlacement"></storyly-placement>
 
-            <!-- Visible only until Storyly finishes loading, or if the token is still a placeholder. -->
+            <!-- Visible until Storyly finishes loading, or when the live embed is unavailable. -->
             <div id="storylyPlacementPlaceholder" class="storyly-placement-placeholder">
               <div class="storyly-placement-placeholder-text">
-                <h2>Storyly Placement demo slot</h2>
+                <h2 id="storylyFallbackTitle">Loading Storyly placement</h2>
                 <p>
-                  Replace <strong>YOUR_STORYLY_PLACEMENT_TOKEN</strong> in the script below with the real token from the Storyly dashboard.
+                  <span id="storylyFallbackText">The live Storyly placement is loading from the vendor CDN. If the token, CDN, or widget is unavailable, this slot will show a stable fallback.</span>
                 </p>
               </div>
               <div class="storyly-placement-placeholder-badge">Storyly v3</div>
@@ -670,6 +727,16 @@
       document.addEventListener("DOMContentLoaded", async function () {
         const storylyPlacement = document.getElementById("storylyPlacement");
         const storylyPlacementContainer = document.getElementById("storylyPlacementContainer");
+        const fallbackTitle = document.getElementById("storylyFallbackTitle");
+        const fallbackText = document.getElementById("storylyFallbackText");
+        let ready = false;
+
+        function setStorylyError(message) {
+          if (ready || !storylyPlacementContainer) return;
+          storylyPlacementContainer.classList.add("is-error");
+          if (fallbackTitle) fallbackTitle.textContent = "Storyly embed unavailable";
+          if (fallbackText) fallbackText.textContent = message;
+        }
 
         if (!storylyPlacement || !storylyPlacementContainer) {
           console.warn("Storyly Placement: required DOM elements were not found.");
@@ -678,11 +745,16 @@
 
         storylyPlacementContainer.style.height = DEFAULT_DASHBOARD_STRIP_HEIGHT + "px";
 
+        const fallbackTimer = window.setTimeout(function () {
+          setStorylyError("The Storyly SDK did not finish loading within the demo timeout. The rest of the dashboard demo is still available.");
+        }, 9000);
+
         if (
           !STORYLY_PLACEMENT_TOKEN ||
           STORYLY_PLACEMENT_TOKEN === "YOUR_STORYLY_PLACEMENT_TOKEN"
         ) {
-          storylyPlacementContainer.classList.add("is-error");
+          window.clearTimeout(fallbackTimer);
+          setStorylyError("The Storyly placement token is missing or still set to a placeholder.");
           console.warn(
             "Storyly Placement: replace YOUR_STORYLY_PLACEMENT_TOKEN with a real placement token."
           );
@@ -693,6 +765,8 @@
           await customElements.whenDefined("storyly-placement");
 
           storylyPlacement.on("widgetReady", function (data) {
+            ready = true;
+            window.clearTimeout(fallbackTimer);
             const ratio = resolveWidgetRatio(data);
             const availableWidth =
               storylyPlacementContainer.getBoundingClientRect().width ||
@@ -713,6 +787,7 @@
               ) + "px";
 
             storylyPlacementContainer.classList.add("is-ready");
+            storylyPlacementContainer.classList.remove("is-error");
             console.log("Storyly Placement widgetReady:", data);
           });
 
@@ -732,7 +807,8 @@
             token: STORYLY_PLACEMENT_TOKEN,
           });
         } catch (error) {
-          storylyPlacementContainer.classList.add("is-error");
+          window.clearTimeout(fallbackTimer);
+          setStorylyError("The Storyly placement failed to initialize. Check the public web token and vendor CDN availability.");
           console.error("Storyly Placement failed to initialize:", error);
         }
       });

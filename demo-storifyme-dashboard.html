@@ -365,6 +365,100 @@
       height: 22px;
     }
 
+    /* ---------- Demo shell ---------- */
+
+    .demo-switcher {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid #e2e8f0;
+      backdrop-filter: blur(10px);
+    }
+
+    .demo-switcher a {
+      border-radius: 999px;
+      padding: 7px 11px;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .demo-switcher a.active {
+      color: #ffffff;
+      background: #0f766e;
+      border-color: #0f766e;
+    }
+
+    .vendor-embed-shell {
+      position: relative;
+      min-height: 118px;
+      border-radius: 12px;
+      background: #ffffff;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .vendor-embed-shell storifyme-collection {
+      display: block;
+      min-height: 118px;
+    }
+
+    .vendor-embed-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px 24px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      pointer-events: none;
+    }
+
+    .vendor-embed-shell.is-ready .vendor-embed-fallback {
+      display: none;
+    }
+
+    .vendor-embed-shell.is-error .vendor-embed-fallback {
+      border: 1px solid #fecaca;
+      background: #fff7f7;
+    }
+
+    .vendor-embed-fallback h2 {
+      margin: 0 0 6px 0;
+      font-size: 16px;
+      line-height: 22px;
+      color: #0f172a;
+    }
+
+    .vendor-embed-fallback p {
+      margin: 0;
+      max-width: 560px;
+      font-size: 13px;
+      line-height: 19px;
+      font-weight: 500;
+      color: #64748b;
+    }
+
+    .vendor-embed-badge {
+      flex-shrink: 0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: #ccfbf1;
+      color: #0f766e;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
     /* ---------- Responsive ---------- */
 
     @media (max-width: 1300px) {
@@ -386,10 +480,29 @@
         padding-bottom: 8px;
       }
     }
+
+    @media (max-width: 700px) {
+      .demo-switcher {
+        justify-content: flex-start;
+        overflow-x: auto;
+      }
+
+      .vendor-embed-fallback {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 
 <body>
+  <nav class="demo-switcher" aria-label="Demo navigation">
+    <a href="index.html">Back to summary</a>
+    <a class="active" href="demo-storifyme-dashboard.html">StorifyMe</a>
+    <a href="demo-storyly-dashboard.html">Storyly</a>
+    <a href="demo-storysdk-dashboard.html">StorySDK</a>
+  </nav>
+
   <div class="dashboard">
     <!-- ---------- Left Sidebar ---------- -->
     <aside class="sidebar">
@@ -470,7 +583,16 @@
 
         <!-- Expatrio Stories -->
         <section class="stories-section">
-          <storifyme-collection account="yusuf-9481725" widget="10548" env="eu"></storifyme-collection>
+          <div id="storifymeShell" class="vendor-embed-shell" aria-live="polite">
+            <storifyme-collection id="storifymeWidget" account="yusuf-9481725" widget="10548" env="eu"></storifyme-collection>
+            <div id="storifymeFallback" class="vendor-embed-fallback">
+              <div>
+                <h2 id="storifymeFallbackTitle">Loading StorifyMe stories</h2>
+                <p id="storifymeFallbackText">The live StorifyMe widget is loading from the vendor CDN. If it cannot load, this area will stay available as a clear fallback state.</p>
+              </div>
+              <div class="vendor-embed-badge">StorifyMe</div>
+            </div>
+          </div>
         </section>
 
         <!-- Your products -->
@@ -564,5 +686,49 @@
       </section>
     </main>
   </div>
+  <script>
+    (function () {
+      const shell = document.getElementById("storifymeShell");
+      const widget = document.getElementById("storifymeWidget");
+      const title = document.getElementById("storifymeFallbackTitle");
+      const text = document.getElementById("storifymeFallbackText");
+      let resolved = false;
+
+      function markReady() {
+        if (resolved || !shell) return;
+        resolved = true;
+        shell.classList.add("is-ready");
+        shell.classList.remove("is-error");
+      }
+
+      function markError(message) {
+        if (resolved || !shell) return;
+        resolved = true;
+        shell.classList.add("is-error");
+        if (title) title.textContent = "StorifyMe embed unavailable";
+        if (text) text.textContent = message;
+      }
+
+      if (!shell || !widget || !window.customElements) {
+        markError("The StorifyMe web component could not be initialized in this browser.");
+        return;
+      }
+
+      const timeout = window.setTimeout(function () {
+        markError("The vendor CDN or configured account/widget did not respond. The rest of the dashboard demo is still available.");
+      }, 9000);
+
+      window.customElements.whenDefined("storifyme-collection")
+        .then(function () {
+          window.setTimeout(function () {
+            window.clearTimeout(timeout);
+            markReady();
+          }, 600);
+        })
+        .catch(function () {
+          markError("The StorifyMe custom element failed to register.");
+        });
+    })();
+  </script>
 </body>
 </html>

@@ -349,6 +349,99 @@
       height: 22px;
     }
 
+    /* ---------- Demo shell ---------- */
+
+    .demo-switcher {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid #e2e8f0;
+      backdrop-filter: blur(10px);
+    }
+
+    .demo-switcher a {
+      border-radius: 999px;
+      padding: 7px 11px;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .demo-switcher a.active {
+      color: #ffffff;
+      background: #334155;
+      border-color: #334155;
+    }
+
+    .vendor-embed-shell {
+      position: relative;
+      min-height: 118px;
+      border-radius: 12px;
+      background: #ffffff;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    #storysdk {
+      min-height: 118px;
+    }
+
+    .vendor-embed-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px 24px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      pointer-events: none;
+    }
+
+    .vendor-embed-shell.is-ready .vendor-embed-fallback {
+      display: none;
+    }
+
+    .vendor-embed-shell.is-error .vendor-embed-fallback {
+      border: 1px solid #fecaca;
+      background: #fff7f7;
+    }
+
+    .vendor-embed-fallback h2 {
+      margin: 0 0 6px 0;
+      font-size: 16px;
+      line-height: 22px;
+      color: #0f172a;
+    }
+
+    .vendor-embed-fallback p {
+      margin: 0;
+      max-width: 560px;
+      font-size: 13px;
+      line-height: 19px;
+      font-weight: 500;
+      color: #64748b;
+    }
+
+    .vendor-embed-badge {
+      flex-shrink: 0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
     /* ---------- Responsive ---------- */
 
     @media (max-width: 1100px) {
@@ -372,9 +465,28 @@
         flex-shrink: 0;
       }
     }
+
+    @media (max-width: 700px) {
+      .demo-switcher {
+        justify-content: flex-start;
+        overflow-x: auto;
+      }
+
+      .vendor-embed-fallback {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
+  <nav class="demo-switcher" aria-label="Demo navigation">
+    <a href="index.html">Back to summary</a>
+    <a href="demo-storifyme-dashboard.html">StorifyMe</a>
+    <a href="demo-storyly-dashboard.html">Storyly</a>
+    <a class="active" href="demo-storysdk-dashboard.html">StorySDK</a>
+  </nav>
+
   <div class="dashboard">
     <aside class="sidebar">
       <div class="logo">
@@ -447,7 +559,16 @@
 
         <!-- Expatrio Stories -->
         <section class="stories-section">
-          <div data-storysdk-token="4eb31240-1542-4513-97c4-3311382c50bf" style="min-height: 100px;" id="storysdk"></div>
+          <div id="storysdkShell" class="vendor-embed-shell" aria-live="polite">
+            <div data-storysdk-token="4eb31240-1542-4513-97c4-3311382c50bf" id="storysdk"></div>
+            <div id="storysdkFallback" class="vendor-embed-fallback">
+              <div>
+                <h2 id="storysdkFallbackTitle">Loading StorySDK stories</h2>
+                <p id="storysdkFallbackText">The live StorySDK widget is loading from React and StorySDK CDNs. If one of those scripts cannot load, this area will show a stable fallback.</p>
+              </div>
+              <div class="vendor-embed-badge">StorySDK</div>
+            </div>
+          </div>
         </section>
 
         <!-- Your products -->
@@ -541,5 +662,75 @@
       </section>
     </main>
   </div>
+  <script>
+    (function () {
+      const shell = document.getElementById("storysdkShell");
+      const target = document.getElementById("storysdk");
+      const title = document.getElementById("storysdkFallbackTitle");
+      const text = document.getElementById("storysdkFallbackText");
+      let resolved = false;
+
+      function hasRenderedContent() {
+        return !!(
+          target &&
+          (target.childElementCount > 0 || target.querySelector("iframe, canvas, video"))
+        );
+      }
+
+      function markReady() {
+        if (resolved || !shell) return;
+        resolved = true;
+        shell.classList.add("is-ready");
+        shell.classList.remove("is-error");
+      }
+
+      function markError(message) {
+        if (resolved || !shell) return;
+        resolved = true;
+        shell.classList.add("is-error");
+        if (title) title.textContent = "StorySDK embed unavailable";
+        if (text) text.textContent = message;
+      }
+
+      if (!shell || !target) {
+        markError("The StorySDK mount node is missing from the page.");
+        return;
+      }
+
+      const observer = new MutationObserver(function () {
+        if (hasRenderedContent()) {
+          observer.disconnect();
+          window.clearTimeout(timeout);
+          markReady();
+        }
+      });
+
+      observer.observe(target, { childList: true, subtree: true });
+
+      const poll = window.setInterval(function () {
+        if (hasRenderedContent()) {
+          window.clearInterval(poll);
+          observer.disconnect();
+          window.clearTimeout(timeout);
+          markReady();
+        }
+      }, 500);
+
+      const timeout = window.setTimeout(function () {
+        window.clearInterval(poll);
+        observer.disconnect();
+        markError("React, ReactDOM, StorySDK, or the configured token did not produce visible story content within the demo timeout.");
+      }, 9000);
+
+      window.addEventListener("load", function () {
+        if (!window.React || !window.ReactDOM) {
+          window.clearInterval(poll);
+          observer.disconnect();
+          window.clearTimeout(timeout);
+          markError("React or ReactDOM failed to load from the CDN, so StorySDK could not mount.");
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
